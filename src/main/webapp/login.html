@@ -1,0 +1,76 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>登录页</title>
+    <style>
+        #main{
+            width: 80%;
+            height: 760px;
+            margin: 0 auto;
+            border-radius: 10px;
+            background: url("https://img-blog.csdnimg.cn/0960f2967c34447ebbfd0d7736437755.jpeg") no-repeat;
+            background-size: 100% 130%;
+        }
+        #login_box {
+            width: 25%;
+            height: 400px;
+            background-color: rgba(136, 204, 250,0.39);
+            margin: 10% 37.5% 0 34%;
+            text-align: center;
+            border-radius: 10px;
+            padding: 50px 50px;
+            display: inline-block;
+        }
+        h2 {
+            color: rgba(66, 66, 66, 0.7);
+            margin-top: 5%;
+        }
+        span {
+            color: #fff;
+        }
+        input {
+            border: 0;
+            width: 60%;
+            font-size: 15px;
+            color: rgba(21, 20, 20, 0.8);
+            background: transparent;
+            border-bottom: 2px solid rgba(93, 92, 92, 0.8);
+            padding: 5px 10px;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        #submit{
+            margin-top: 50px;
+            width: 60%;
+            height: 30px;
+            border-radius: 10px;
+            border: 0;
+            color: #fff;
+            text-align: center;
+            line-height: 20px;
+            font-size: 15px;
+            padding-bottom: 7.5px;
+            background-image: linear-gradient(to right, #30cfd0, #085f67);
+        }
+
+    </style>
+</head>
+
+<body>
+<div id = "main">
+    <div id="login_box">
+        <h2>LOGIN</h2>
+        <form action="/login" method="post" name="loginform">
+            <div id="input_box">
+                <input type="text" name = "name" placeholder="请输入用户名">
+            </div>
+            <div class="input_box">
+                <input type="text" name = "sex" placeholder="请输入性别">
+            </div>
+            <input type="submit" id = "submit" value="登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录"/><br>
+        </form>
+    </div>
+</div>
+</body>
+</html>
