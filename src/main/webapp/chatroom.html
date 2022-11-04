@@ -226,7 +226,6 @@
                         var div = document.getElementById("chatrecord");
                         newhtml += '<span id = "hidden" style ="overflow:hidden"></span>'
                         newhtml +="</div>"
-                        console.log(newhtml);
                         div.outerHTML = newhtml;
                         document.getElementById("hidden").scrollIntoView(false);
                     }
@@ -258,16 +257,17 @@
                                 newhtml += userhtml;
                             }
                         }
-                        var select = document.getElementById("select")
+                        var select = document.getElementById("select");
                         newhtml +="</select>";
-                        console.log(newhtml);
                         select.outerHTML = newhtml;
                     }
                 }
             }
         }
+        setInterval(refreshData,5000);
         refreshData();
-        setInterval(refresh,5000)
+        refreshSelect();
+        document.getElementById('select').addEventListener('click', refreshSelect);
     </script>
 </head>
 <body>
@@ -287,13 +287,13 @@
         <div id = "sendinfo">
             <form action="/sendinfo" method="post" name="sendinfo">
                 <div>
-                    <select name="target" id = "select">
+                    <select name="target" id ="select">
                         <option value="所有人">所有人</option>
                     </select>
-                    <button id = "refreshusers" onclick="refreshSelect()">刷新用户</button>
+                    <button id = "refreshusers" type="button">刷新用户</button>
                 </div>
                 <textarea  name="message" rows="4"></textarea>
-                <input type="submit" id = "submit" onclick="setTimeout(refreshData,1000)" value="发        送"/>
+                <input type="submit" id = "submit" value="发        送"/>
             </form>
         </div>
     </div>
