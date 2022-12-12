@@ -3,9 +3,10 @@
 <html>
 <head>
     <title>Customer</title>
+    <meta charset="UTF-8" />
 </head>
 <body>
-<form action="/a" method="post">
+<form action="/test/a" method="post">
     <p>编号&nbsp;&nbsp;&nbsp;&nbsp;姓名&nbsp;&nbsp;&nbsp;&nbsp;年龄&nbsp;&nbsp;&nbsp;&nbsp;手机号</p>
     <c:forEach var="customer" items="${customers}">
         ${customer.id}&nbsp;&nbsp;&nbsp;&nbsp;
@@ -24,7 +25,6 @@
 
     编号<input type="text" name = "id">姓名<input type="text" name = "name">
     年龄<input type="text" name = "age">手机号<input type="text" name = "phoneNumber"><input type="submit" text="插入">
-
 </form>
 
 </body>
