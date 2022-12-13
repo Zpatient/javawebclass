@@ -3,6 +3,7 @@ package com.zgy.javawebclass.controller;
  * @author zgy
  * @create 2022-12-13 18:33
  */
+import com.zgy.javawebclass.bean.FileInfo;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.ProgressListener;
@@ -117,6 +118,12 @@ public class FileServlet extends HttpServlet {
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
+        FileInfo fileInfo = new FileInfo();
+        // 设置返回字符集
+        resp.setContentType("charset=utf-8");
+        String result = "{\"name\":\"Marydon\"}";
+        // 返回数据
+        resp.getWriter().print(result);
         String msg="文件上传成功";
         System.out.println(msg);
         //请求转发

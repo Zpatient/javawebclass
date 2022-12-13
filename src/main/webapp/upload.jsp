@@ -37,7 +37,7 @@
     <script>
         const editor = Jodit.make('#editor' ,{
             uploader: {
-                url: 'http://localhost:8080/test/file'
+                url: 'https://xdsoft.net/jodit/finder/?action=fileUpload'
             },
             filebrowser: {
                 ajax: {
@@ -49,3 +49,29 @@
 </form>
 </body>
 </html>
+
+{
+"success":true,
+"time":"2022-12-13 11:09:17",
+"data":{
+"baseurl":"https:\/\/xdsoft.net\/jodit\/finder\/files\/",
+"messages":[],
+"files":["1.doc"],
+"isImages":[false],
+"code":220},
+"elapsedTime":null
+}
+
+{
+"success":true,
+"time":"2022-12-13 11:09:17",
+"data":
+    {
+        "baseurl":"https:\/\/xdsoft.net\/jodit\/finder\/files\/",
+        "messages":[],
+        "files":["1.doc"],
+        "isImages":[false],
+        "code":220
+    },
+"elapsedTime":null
+}
