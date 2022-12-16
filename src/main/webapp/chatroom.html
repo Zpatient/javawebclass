@@ -80,7 +80,6 @@
             height: 100%;
         }
         select{
-            display: inline-block;
             width: 10%;
             border:1px solid #666;
             color:#666;
@@ -91,7 +90,6 @@
             padding-left: 4px;
             background: aliceblue;
             display: block;
-            float:left;
             font-size: 8px;
         }
         textarea{
@@ -147,27 +145,17 @@
             background: deepskyblue;
             border-radius: 12px;
         }
-        #refreshusers {
-            display: inline-block;
-            margin-top: 0.8%;
-            margin-left: 5px;
-            width: 8%;
-            border-radius: 10px;
-            border: 2px;
-            border: ridge;
-            text-align: center;
-            line-height: 16px;
-            font-size: 12px;
-            float:left;
-            background: lightblue;
-        }
-        #submit{
-            border: 2px;
-            border: ridge;
-            background: lightblue;
-        }
     </style>
     <script type="text/javascript">
+        function logout(){
+            if(window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else {
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xhr.open("GET","http://localhost:8080/logout",true);
+            xhr.send(null);
+        }
         function refreshData(){
             var newhtml = "<div id = 'chatrecord'>";
             var xhr = null;
@@ -226,6 +214,7 @@
                         var div = document.getElementById("chatrecord");
                         newhtml += '<span id = "hidden" style ="overflow:hidden"></span>'
                         newhtml +="</div>"
+                        console.log(newhtml);
                         div.outerHTML = newhtml;
                         document.getElementById("hidden").scrollIntoView(false);
                     }
@@ -257,17 +246,20 @@
                                 newhtml += userhtml;
                             }
                         }
-                        var select = document.getElementById("select");
+                        var select = document.getElementById("select")
                         newhtml +="</select>";
+                        console.log(newhtml);
                         select.outerHTML = newhtml;
                     }
                 }
             }
         }
-        setInterval(refreshData,5000);
+        function refresh(){
+            refreshData();
+            refreshSelect();
+        }
         refreshData();
-        refreshSelect();
-        document.getElementById('select').addEventListener('click', refreshSelect);
+        setInterval(refresh,5000)
     </script>
 </head>
 <body>
@@ -275,6 +267,7 @@
     <div id = "top">
         <div id = "title">
             <h1>在线聊天室</h1>
+            <button type="button" onclick="logout()">退出</button>
         </div>
         <div id = "displayinfo">
             <div id = "chatrecord">
@@ -286,14 +279,11 @@
     <div id = "bottom">
         <div id = "sendinfo">
             <form action="/sendinfo" method="post" name="sendinfo">
-                <div>
-                    <select name="target" id ="select">
-                        <option value="所有人">所有人</option>
-                    </select>
-                    <button id = "refreshusers" type="button">刷新用户</button>
-                </div>
+                <select name="target" id = "select">
+                    <option value="所有人">所有人</option>
+                </select>
                 <textarea  name="message" rows="4"></textarea>
-                <input type="submit" id = "submit" value="发        送"/>
+                <input type="submit" id = "submit" onclick="setTimeout(refreshData,1000)" value="发        送"/>
             </form>
         </div>
     </div>
