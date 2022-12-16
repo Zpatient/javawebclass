@@ -1,28 +1,14 @@
 package com.zgy.javawebclass.bean;
 
+
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class teacher implements Serializable {
-    
-    
+public class Admin implements Serializable {
     private Integer id;
-
-    
     private String password;
-
-    
-    private String name;
-
-    
-    private String title;
-
-    
-    private String breif;
-    
-
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -34,12 +20,9 @@ public class teacher implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        teacher other = (teacher) that;
+        Admin other = (Admin) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
-            && (this.getBreif() == null ? other.getBreif() == null : this.getBreif().equals(other.getBreif()));
+            && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()));
     }
 
     @Override
@@ -48,9 +31,6 @@ public class teacher implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
-        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + ((getTitle() == null) ? 0 : getTitle().hashCode());
-        result = prime * result + ((getBreif() == null) ? 0 : getBreif().hashCode());
         return result;
     }
 
@@ -62,10 +42,6 @@ public class teacher implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", password=").append(password);
-        sb.append(", name=").append(name);
-        sb.append(", title=").append(title);
-        sb.append(", breif=").append(breif);
-        
         sb.append("]");
         return sb.toString();
     }

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class remark implements Serializable {
+public class Remark implements Serializable {
     private Integer id;
     private String content;
     private Date remarktime;
@@ -26,7 +26,7 @@ public class remark implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        remark other = (remark) that;
+        Remark other = (Remark) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()))
             && (this.getRemarktime() == null ? other.getRemarktime() == null : this.getRemarktime().equals(other.getRemarktime()))

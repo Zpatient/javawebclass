@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class question implements Serializable {
+public class Question implements Serializable {
     private Integer id;
     private String question;
     private Date asktime;
@@ -24,7 +24,7 @@ public class question implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        question other = (question) that;
+        Question other = (Question) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getQuestion() == null ? other.getQuestion() == null : this.getQuestion().equals(other.getQuestion()))
             && (this.getAsktime() == null ? other.getAsktime() == null : this.getAsktime().equals(other.getAsktime()))
@@ -51,7 +51,7 @@ public class question implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", question=").append(question);
+        sb.append(", Question=").append(question);
         sb.append(", asktime=").append(asktime);
         sb.append(", courseid=").append(courseid);
         sb.append(", studentid=").append(studentid);
