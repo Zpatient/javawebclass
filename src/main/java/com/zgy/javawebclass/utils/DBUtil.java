@@ -1,5 +1,7 @@
 package com.zgy.javawebclass.utils;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -27,10 +29,10 @@ public class DBUtil {
      * @return void
      */
     public static void init(){
-        InputStream resource = null;
-        resource = ClassLoader.getSystemClassLoader().getResourceAsStream("jdbc.properties");
+
         Properties prop = new Properties();
         try {
+            InputStream resource = DBUtil.class.getClassLoader().getResourceAsStream("jdbc.properties");
             prop.load(resource);
             DBUtil.driverClass = prop.getProperty("driverClass");
             DBUtil.url = prop.getProperty("url");

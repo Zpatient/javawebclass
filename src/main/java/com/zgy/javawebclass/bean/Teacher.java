@@ -20,7 +20,7 @@ public class Teacher implements Serializable {
     private String title;
 
     
-    private String breif;
+    private String brief;
     
 
     @Override
@@ -39,7 +39,7 @@ public class Teacher implements Serializable {
             && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
-            && (this.getBreif() == null ? other.getBreif() == null : this.getBreif().equals(other.getBreif()));
+            && (this.getBrief() == null ? other.getBrief() == null : this.getBrief().equals(other.getBrief()));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class Teacher implements Serializable {
         result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getTitle() == null) ? 0 : getTitle().hashCode());
-        result = prime * result + ((getBreif() == null) ? 0 : getBreif().hashCode());
+        result = prime * result + ((getBrief() == null) ? 0 : getBrief().hashCode());
         return result;
     }
 
@@ -64,7 +64,7 @@ public class Teacher implements Serializable {
         sb.append(", password=").append(password);
         sb.append(", name=").append(name);
         sb.append(", title=").append(title);
-        sb.append(", breif=").append(breif);
+        sb.append(", breif=").append(brief);
         
         sb.append("]");
         return sb.toString();

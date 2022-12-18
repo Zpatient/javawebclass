@@ -19,6 +19,7 @@ import {
 	selectValidators
 } from 'jodit/core/ui/form/validators';
 
+// @ts-ignore
 @component
 export class UISelect extends UIInput implements IUISelect {
 	/** @override */
