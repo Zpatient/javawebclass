@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>教师登录</title>
+    <title>管理员登录</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/loginorregister.css">
 </head>
 <body>
@@ -15,9 +15,9 @@
     <img class="content-logo" src="${pageContext.request.contextPath}/picture/form_logo.png" alt="logo">
     <h1 class="content-title">Login</h1>
     <div class="content-form">
-        <form method="post" action="${pageContext.request.contextPath}/teacher/login">
+        <form method="post" action="${pageContext.request.contextPath}/admin/login">
             <div id="change_margin_1">
-                <input class="user" type="text" name="id" placeholder="请输入用户名">
+                <input class="user" type="text" name="id" placeholder="请输入管理员账号"/>
             </div>
             <div id="change_margin_2">
                 <input class="password" type="password" name="password" placeholder="请输入密码">

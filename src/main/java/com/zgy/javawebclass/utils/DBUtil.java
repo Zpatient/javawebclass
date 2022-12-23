@@ -136,8 +136,11 @@ public class DBUtil {
         String name = clazz.getSimpleName();
         String sql = "select * from "+name.toLowerCase()+" where id = "+id;
         List<T> list = getBySql(connection,sql, clazz,null);
-        T bean = list.get(0);
-        return bean;
+        if(list.size()==0) return null;
+        else{
+            T bean = list.get(0);
+            return bean;
+        }
     }
     public static <T> List<T> getBySql(Connection connection,String sql,Class<T> clazz,Object... objects){
         if(sql==null||clazz==null) return null;

@@ -10,4 +10,9 @@ import java.util.List;
  */
 public interface CourseDao {
     List<Course> getAll();
+    Integer update(Course course);
+    Integer insert(Course course);
+    Integer remove(Integer id);
+    Course getById(Integer id);
+    List<Course> getCourseByIds(List<Integer> ids);
 }

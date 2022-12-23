@@ -1,16 +1,20 @@
 package com.zgy.javawebclass.bean;
 
 import java.io.Serializable;
-import lombok.Data;
 
-/**
- * @TableName admin
- */
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
-public class Admin implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Selection implements Serializable {
     private Integer id;
 
-    private String password;
+    private Integer studentid;
+
+    private Integer courseid;
 
     @Override
     public boolean equals(Object that) {
@@ -23,9 +27,10 @@ public class Admin implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        Admin other = (Admin) that;
+        Selection other = (Selection) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()));
+            && (this.getStudentid() == null ? other.getStudentid() == null : this.getStudentid().equals(other.getStudentid()))
+            && (this.getCourseid() == null ? other.getCourseid() == null : this.getCourseid().equals(other.getCourseid()));
     }
 
     @Override
@@ -33,7 +38,8 @@ public class Admin implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
+        result = prime * result + ((getStudentid() == null) ? 0 : getStudentid().hashCode());
+        result = prime * result + ((getCourseid() == null) ? 0 : getCourseid().hashCode());
         return result;
     }
 
@@ -44,7 +50,8 @@ public class Admin implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", password=").append(password);
+        sb.append(", studentid=").append(studentid);
+        sb.append(", courseid=").append(courseid);
         sb.append("]");
         return sb.toString();
     }

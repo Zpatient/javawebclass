@@ -37,7 +37,7 @@
     <script>
         const editor = Jodit.make('#editor' ,{
             uploader: {
-                url: 'https://xdsoft.net/jodit/finder/?action=fileUpload'
+                url: 'https://localhost:8080/file'
             },
             filebrowser: {
                 ajax: {

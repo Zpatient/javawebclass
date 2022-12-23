@@ -15,16 +15,16 @@
     <img class="content-logo" src="picture/form_logo.png" alt="logo">
     <h1 class="content-title">Change&nbsp;&nbsp;Password</h1>
     <div class="content-form">
-        <form method="post" action="">
-            <div id="change_margin_1">
-                <input class="user" type="text" name="id" placeholder="请输入账号">
-            </div>
+        <form method="post" action="${pageContext.request.contextPath}/${sessionScope.type}/changepassword">
+<%--            <div id="change_margin_1">--%>
+<%--                <input class="user" type="text" name="id" placeholder="请输入账号">--%>
+<%--            </div>--%>
             <div id="change_margin_2">
                 <input id  = "psw" class="password" type="password" name="password" placeholder="请输入新密码"
                        oninput="oBlur_2()" onblur="oBlur_2()" onfocus="oFocus_2()">
             </div>
             <div id="change_margin_3">
-                <input id = "c_psw" class="password" type="password" name="changepassword" placeholder="请再次输入新密码"
+                <input id = "c_psw" class="password" type="password" name="confirmpassword" placeholder="请再次输入新密码"
                        oninput="oBlur_2()" onblur="oBlur_2()" onfocus="oFocus_2()" >
                 <p id="remind_1"></p>
             </div>

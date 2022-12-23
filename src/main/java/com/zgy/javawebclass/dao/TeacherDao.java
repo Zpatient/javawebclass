@@ -11,4 +11,8 @@ import java.util.List;
  */
 public interface TeacherDao {
     List<Teacher> getAll();
+    Integer update(Teacher teacher);
+    Integer insert(Teacher teacher);
+    Integer remove(Integer id);
+    Teacher getById(Integer id);
 }

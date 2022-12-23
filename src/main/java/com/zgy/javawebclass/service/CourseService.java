@@ -1,6 +1,7 @@
 package com.zgy.javawebclass.service;
 
 import com.zgy.javawebclass.bean.Course;
+import com.zgy.javawebclass.bean.CourseView;
 
 import java.util.List;
 
@@ -10,4 +11,8 @@ import java.util.List;
  */
 public interface CourseService {
     List<Course> getAll();
+    Boolean update(Course course);
+    Boolean insert(Course course);
+    Boolean remove(Integer id);
+    List<CourseView> getCourseViews(List<Integer> ids);
 }

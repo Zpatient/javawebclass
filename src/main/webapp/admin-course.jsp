@@ -33,6 +33,23 @@
         function insert(){
             $("#insertform").submit();
         }
+        function removeCourse(obj){
+            var tds= $(obj).parent().parent().find('td');
+            var tid = tds.eq(0).text();
+            $.ajax({
+                url: '${pageContext.request.contextPath}/course/remove', 	// 请求的地址，即要给那里发送请求
+                data: {id:tid},
+                type: 'get',		// 请求方式，get、post
+                dataType: 'text',	// 返回值类型， json、text等
+                success: function (data) { // 请求成功执行此方法，res为返回值，名称自定义
+                    if(data=='true'){
+                        var tr = $(obj).parent().parent();
+                        tr.html("");
+                        $('#tabele').load("http://localhost:8080/course/getall #table");
+                    }
+                }
+            })
+        }
     </script>
 </head>
 
@@ -59,7 +76,7 @@
                 </div>
                 <div class = "pull-right" style="width: 100px;child-align: auto;margin-right: 40px;">
                     <div class="btn-group" style="display: inline-block;">
-                        <p class="btn dropdown-toggle font-weight-bold" data-toggle="dropdown"><img src="${pageContext.request.contextPath}/assets/images/user.png"/>用户名</p>
+                        <p class="btn dropdown-toggle font-weight-bold" data-toggle="dropdown"><img src="${pageContext.request.contextPath}/assets/images/user.png"/>Admin</p>
                         <ul class="dropdown-menu" style="width: 100px;margin-left:12px;child-align: auto;min-width: 100px;">
                             <li style="width: 100px;text-align: center;margin-right: 0;"><a href="${pageContext.request.contextPath}/changepassword.jsp">修改密码</a></li>
                             <li style="width: 100px;text-align: center;margin-right: 0;"><a href="#">退出登录</a></li>
@@ -74,7 +91,7 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <li> <a class="waves-effect waves-dark" href="${pageContext.request.contextPath}/course/getall" aria-expanded="false">
-                            <i class="fa fa-tachometer"></i><span class="h5 hide-menu font-weight-bold">课程信息管理</span></a>
+                            <i class="fa active fa-tachometer"></i><span class="h5 hide-menu font-weight-bold">课程信息管理</span></a>
                         </li>
                         <li> <a class="waves-effect waves-dark" href="${pageContext.request.contextPath}/teacher/getall" aria-expanded="false">
                             <i class="fa fa-user-circle-o"></i><span class="h5 hide-menu font-weight-bold">教师信息管理</span></a>
@@ -152,7 +169,7 @@
                                     <div class="form-group center-block">
                                         <label for="uid" class="col-md-3 control-label font-weight-bold text-right">课程代码</label>
                                         <div class="col-md-8" style="display: inline-block">
-                                            <input id ="uid" name="id" type="text" class="form-control" placeholder="请输入课程代码" disabled="disabled"/>
+                                            <input id ="uid" name="id" type="text" class="form-control" placeholder="请输入课程代码" readonly="readonly"/>
                                         </div>
                                     </div>
                                     <div class="form-group center-block">
@@ -204,7 +221,7 @@
                                     </span>
                                 </div>
                                 <div class="table-responsive m-t-20 no-wrap" style="margin-top:0;">
-                                    <table class="table vm no-th-brd pro-of-month table-hover table-bordered">
+                                    <table class="table vm no-th-brd pro-of-month table-hover table-bordered" id="table">
                                         <thead>
                                             <tr>
                                                 <td class = "h7 col-md-1 font-weight-bold" style="text-align: center">课程代码</td>
@@ -225,7 +242,7 @@
                                                 <td class = "col-md-1" style="text-align: center">${course.score}</td>
                                                 <td class = "col-md-3" style="text-align: center">
                                                     <button type="button" class="btn btn-info btn-sm" onclick="showDialog(this)">编辑</button>
-                                                    <button type="button" class="btn btn-danger btn-sm">删除</button>
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="removeCourse(this)">删除</button>
                                                 </td>
                                             </tr>
                                         </c:forEach>
