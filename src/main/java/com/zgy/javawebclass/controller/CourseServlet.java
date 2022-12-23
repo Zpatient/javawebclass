@@ -4,10 +4,7 @@ package com.zgy.javawebclass.controller;
  * @create 2022-12-18 10:31
  */
 
-import com.zgy.javawebclass.bean.Ask;
-import com.zgy.javawebclass.bean.Course;
-import com.zgy.javawebclass.bean.CourseView;
-import com.zgy.javawebclass.bean.Student;
+import com.zgy.javawebclass.bean.*;
 import com.zgy.javawebclass.service.CourseService;
 import com.zgy.javawebclass.service.QuestionService;
 import com.zgy.javawebclass.service.SelectionService;
@@ -15,6 +12,7 @@ import com.zgy.javawebclass.service.impl.CourseServiceImpl;
 import com.zgy.javawebclass.service.impl.QuestionServiceImpl;
 import com.zgy.javawebclass.service.impl.SelectionServiceImpl;
 import com.zgy.javawebclass.utils.ParamsToBean;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -39,11 +37,10 @@ public class CourseServlet extends HttpServlet {
             case "getall": {doGetAll(request,response);break;}
             case "remove": doRemove(request,response);break;
             case "getdetail": doGetDetail(request,response);break;
+            case "remark": doRemark(request,response);break;
             default: {response.sendRedirect("/404.html");break;}
         }
     }
-
-
 
 
     @Override
@@ -78,10 +75,15 @@ public class CourseServlet extends HttpServlet {
             request.setAttribute("students",students);
             request.getRequestDispatcher("/student-course-detail.jsp").forward(request,response);
         }else if(type.equals("teacher")){
-
-
-
-            
+            Teacher user = (Teacher)request.getSession().getAttribute("user");
+            if(user==null) response.sendRedirect("/teacher/login");
+            //提问列表
+            List<Ask> asks = questionService.getQuestionsBycourseId(courseView.getId());
+            request.setAttribute("asks",asks);
+            //学生列表
+            List<Student> students = selectionService.getStudents(courseView.getId());
+            request.setAttribute("students",students);
+            request.getRequestDispatcher("/teacher-course-detail.jsp").forward(request,response);
         }else response.sendRedirect("/404.html");
     }
     private void doRemove(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -106,7 +108,13 @@ public class CourseServlet extends HttpServlet {
             response.sendRedirect("/404.html");
         }
     }
-
+    private void doRemark(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String courseName = request.getParameter("courseName");
+        String scoreStr = request.getParameter("score");
+        if(StringUtils.isAnyBlank(courseName,scoreStr))response.sendRedirect("/404.html");
+        Integer score = Integer.parseInt(scoreStr);
+        courseService.remark(courseName,score);
+    }
     private void doInsert(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
         Map<String, String[]> map = request.getParameterMap();
         Course course = ParamsToBean.transform(map, Course.class);

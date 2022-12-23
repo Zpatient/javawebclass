@@ -15,6 +15,8 @@ public interface QuestionService {
     Boolean insert(Question question);
     Boolean remove(Integer id);
     List<Ask> getQuestions(Integer id);
+    List<Ask> getQuestionsByTeacherId(Integer teacherId);
+    List<Ask> getQuestionsBycourseId(Integer courseId);
     List<Ask> getQuestions(Integer studentId,Integer courseId);
     Ask getById(Integer id);
 }

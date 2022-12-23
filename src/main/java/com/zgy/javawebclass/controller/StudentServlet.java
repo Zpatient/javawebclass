@@ -39,10 +39,13 @@ public class StudentServlet extends HttpServlet {
             case "getquestion": doGetQuestion(request,response);break;
             case "getcourse": doGetCourse(request,response);break;
             case "login": getLogin(request,response);break;
-            case "select": doSelect(request,response);break;
+            case "register":getRegister(request,response);
             default:{response.sendRedirect("/404.html");break;}
         }
     }
+
+
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
@@ -50,12 +53,19 @@ public class StudentServlet extends HttpServlet {
         switch (target){
             case "login": doLogin(request,response);break;
             case "changepassword": doChangePassword(request,response);break;
+            case "register":doRegister(request,response);break;
+            case "select": doSelect(request,response);break;
             default: {response.sendRedirect("/404.html");break;}
         }
     }
 
-
-
+    private void doRegister(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        Map<String, String[]> map = request.getParameterMap();
+        StudentRegister studentRegister = ParamsToBean.transform(map, StudentRegister.class);
+        Boolean result = studentService.register(studentRegister);
+        if(!result) response.sendRedirect("/404.html");
+        request.getRequestDispatcher("/student/login").forward(request,response);
+    }
     private void getLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/studentlogin.jsp").forward(request,response);
     }
@@ -127,5 +137,8 @@ public class StudentServlet extends HttpServlet {
             request.getSession().setAttribute("user",user);
         }
         else response.sendRedirect("/404.html");
+    }
+    private void getRegister(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/studentregister.jsp").forward(request,response);
     }
 }

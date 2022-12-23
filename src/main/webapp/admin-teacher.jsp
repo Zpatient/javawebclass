@@ -79,7 +79,15 @@
                             <p class="btn dropdown-toggle font-weight-bold" data-toggle="dropdown"><img src="${pageContext.request.contextPath}/assets/images/user.png"/>Admin</p>
                             <ul class="dropdown-menu" style="width: 100px;margin-left:12px;child-align: auto;min-width: 100px;">
                                 <li style="width: 100px;text-align: center;margin-right: 0;"><a href="${pageContext.request.contextPath}/changepassword.jsp">修改密码</a></li>
-                                <li style="width: 100px;text-align: center;margin-right: 0;"><a href="#">退出登录</a></li>
+                                <c:if test="${sessionScope.type=='admin'}">
+                                    <li style="width: 100px;text-align: center;margin-right: 0;"><a href="${pageContext.request.contextPath}/admin/login">退出登录</a></li>
+                                </c:if>
+                                <c:if test="${sessionScope.type=='student'}">
+                                    <li style="width: 100px;text-align: center;margin-right: 0;"><a href="${pageContext.request.contextPath}/student/login">退出登录</a></li>
+                                </c:if>
+                                <c:if test="${sessionScope.type=='teacher'}">
+                                    <li style="width: 100px;text-align: center;margin-right: 0;"><a href="${pageContext.request.contextPath}/teacher/login">退出登录</a></li>
+                                </c:if>
                             </ul>
                         </div>
                 </div>

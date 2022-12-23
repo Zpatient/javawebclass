@@ -15,4 +15,6 @@ public interface CourseDao {
     Integer remove(Integer id);
     Course getById(Integer id);
     List<Course> getCourseByIds(List<Integer> ids);
+    List<Course> getCourseByTeacherId(Integer teacherId);
+    Course getByName(String courseName);
 }

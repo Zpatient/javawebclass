@@ -10,6 +10,7 @@ import com.zgy.javawebclass.dao.impl.QuestionDaoImpl;
 import com.zgy.javawebclass.dao.impl.StudentDaoImpl;
 import com.zgy.javawebclass.dao.impl.TeacherDaoImpl;
 import com.zgy.javawebclass.service.QuestionService;
+import com.zgy.javawebclass.service.SelectionService;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class QuestionServiceImpl implements QuestionService {
     StudentDao studentDao = new StudentDaoImpl();
     CourseDao courseDao = new CourseDaoImpl();
     TeacherDao teacherDao =new TeacherDaoImpl();
+    SelectionService selectionService  =new SelectionServiceImpl();
     @Override
     public List<Question> getAll() {
         return questionDao.getAll();
@@ -61,17 +63,86 @@ public class QuestionServiceImpl implements QuestionService {
             Teacher teacher = teacherDao.getById(course.getTeacherid());
             if(teacher==null) return null;
             Ask ask = new Ask();
+            Selection selection = selectionService.getSelection(student.getId(), course.getId());
+            if(selection!=null){
+                if(selection.getSee().equals(0))
+                    ask.setStudentShow(false);
+                else
+                    ask.setStudentShow(true);
+            }
             ask.setQuestionId(question.getId());
             ask.setQuestion(content);
             ask.setCourse(course.getName());
             ask.setStudent(student.getName());
             ask.setTeacher(teacher.getName());
             ask.setStudentId(student.getId());
+            ask.setTeacherId(teacher.getId());
             asks.add(ask);
         }
         return asks;
     }
-
+    @Override
+    public List<Ask> getQuestionsByTeacherId(Integer teacherId) {
+        if(teacherId==null)return null;
+        List<Question> questions = questionDao.getQuestionsByTeacherId(teacherId);
+        List<Ask> asks = new ArrayList<>();
+        for(Question question:questions){
+            String content = question.getQuestion();
+            Course course = courseDao.getById(question.getCourseid());
+            Student student = studentDao.getById(question.getStudentid());
+            if(ObjectUtils.anyNull(student,course)) return null;
+            Teacher teacher = teacherDao.getById(course.getTeacherid());
+            if(teacher==null) return null;
+            Ask ask = new Ask();
+            Selection selection = selectionService.getSelection(student.getId(), course.getId());
+            if(selection!=null){
+                if(selection.getSee().equals(0))
+                    ask.setStudentShow(false);
+                else
+                    ask.setStudentShow(true);
+            }
+            ask.setQuestionId(question.getId());
+            ask.setQuestion(content);
+            ask.setCourse(course.getName());
+            ask.setStudent(student.getName());
+            ask.setTeacher(teacher.getName());
+            ask.setStudentId(student.getId());
+            ask.setTeacherId(teacher.getId());
+            asks.add(ask);
+        }
+        return asks;
+    }
+    @Override
+    public List<Ask> getQuestionsBycourseId(Integer courseId) {
+        if(courseId==null)return null;
+        List<Question> questions = questionDao.getQuestionsByCourseId(courseId);
+        List<Ask> asks = new ArrayList<>();
+        for(Question question:questions){
+            String content = question.getQuestion();
+            Course course = courseDao.getById(question.getCourseid());
+            Student student = studentDao.getById(question.getStudentid());
+            if(ObjectUtils.anyNull(student,course)) return null;
+            Teacher teacher = teacherDao.getById(course.getTeacherid());
+            if(teacher==null) return null;
+            Ask ask = new Ask();
+            Selection selection = selectionService.getSelection(student.getId(), course.getId());
+            if(selection!=null){
+                if(selection.getSee().equals(0))
+                    ask.setStudentShow(false);
+                else
+                    ask.setStudentShow(true);
+            }
+            ask.setQuestionId(question.getId());
+            ask.setQuestion(content);
+            ask.setCourse(course.getName());
+            ask.setStudent(student.getName());
+            ask.setTeacher(teacher.getName());
+            ask.setStudentId(student.getId());
+            ask.setTeacherId(teacher.getId());
+            asks.add(ask);
+        }
+        return asks;
+    }
     @Override
     public List<Ask> getQuestions(Integer studentId,Integer courseId) {
         if(ObjectUtils.anyNull(studentId,courseId)) return null;
@@ -85,6 +156,13 @@ public class QuestionServiceImpl implements QuestionService {
             Teacher teacher = teacherDao.getById(course.getTeacherid());
             if(teacher==null) return null;
             Ask ask = new Ask();
+            Selection selection = selectionService.getSelection(student.getId(), course.getId());
+            if(selection!=null){
+                if(selection.getSee().equals(0))
+                    ask.setStudentShow(false);
+                else
+                    ask.setStudentShow(true);
+            }
             ask.setQuestionId(question.getId());
             ask.setQuestion(content);
             ask.setCourse(course.getName());
@@ -101,7 +179,6 @@ public class QuestionServiceImpl implements QuestionService {
         }
         return asks;
     }
-
     @Override
     public Ask getById(Integer id) {
         if(id == null)return null;
@@ -113,6 +190,13 @@ public class QuestionServiceImpl implements QuestionService {
         Teacher teacher = teacherDao.getById(course.getTeacherid());
         if(teacher==null) return null;
         Ask ask = new Ask();
+        Selection selection = selectionService.getSelection(student.getId(), course.getId());
+        if(selection!=null){
+            if(selection.getSee().equals(0))
+                ask.setStudentShow(false);
+            else
+                ask.setStudentShow(true);
+        }
         ask.setQuestionId(question.getId());
         ask.setQuestion(content);
         ask.setCourse(course.getName());

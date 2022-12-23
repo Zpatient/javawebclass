@@ -1,6 +1,7 @@
 package com.zgy.javawebclass.dao.impl;
 
 import com.zgy.javawebclass.bean.Remark;
+import com.zgy.javawebclass.dao.BaseDao;
 import com.zgy.javawebclass.dao.RemarkDao;
 import com.zgy.javawebclass.utils.DBUtil;
 import static com.zgy.javawebclass.utils.DBUtil.*;
@@ -12,7 +13,7 @@ import java.util.List;
  * @author zgy
  * @create 2022-12-18 11:12
  */
-public class RemarkDaoImpl implements RemarkDao {
+public class RemarkDaoImpl extends BaseDao implements RemarkDao {
     public List<Remark> getAll() {
         Connection conn = DBUtil.getConn();
         String sql = "select * from remark";
@@ -52,7 +53,7 @@ public class RemarkDaoImpl implements RemarkDao {
     public List<Remark> getByTargetId(Integer targetId) {
         if(targetId==null) return null;
         Connection conn = getConn();
-        String sql = "select * from remark where targetid = ?";
+        String sql = "select * from remark where targetid = ? and isread = 0";
         List<Remark> remarks = getBySql(conn, sql, Remark.class, targetId);
         close(conn);
         return remarks;
@@ -66,5 +67,23 @@ public class RemarkDaoImpl implements RemarkDao {
         List<Remark> remarks = getBySql(conn, sql, Remark.class, questionId);
         close(conn);
         return remarks;
+    }
+
+    @Override
+    public void updateRemarkIsRead(Integer questionId,Integer userId) {
+        if(questionId==null) return;
+        Connection conn = getConn();
+        String sql = "update remark set isread = 1 where questionid = "+questionId+" and targetid = "+userId;
+        excuteUpdate(conn,sql,null);
+        close(conn);
+        return;
+    }
+
+    @Override
+    public Remark getById(Integer remarkId) {
+        Connection conn = getConn();
+        Remark remark = getById(conn, remarkId, Remark.class);
+        close(conn);
+        return remark;
     }
 }

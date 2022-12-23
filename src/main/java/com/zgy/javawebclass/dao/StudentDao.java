@@ -10,4 +10,5 @@ public interface StudentDao {
     Student getById(Integer id);
     Integer changePassword(Integer id,String newPassword);
     Integer update(Student student);
+    Integer insertStudent(Student student);
 }

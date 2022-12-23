@@ -60,14 +60,13 @@ public class QuestionServlet extends HttpServlet {
     }
 
     private void doGetDetail(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
         String id = request.getParameter("id");
         if(StringUtils.isAnyBlank(id)||id==null) response.sendRedirect("/404.html");
         Ask ask = questionService.getById(Integer.parseInt(id));
         List<Message> messages = remarkService.getMessagesByQuestionId(Integer.parseInt(id));
         request.setAttribute("ask",ask);
         request.setAttribute("messages",messages);
-        request.getRequestDispatcher("/student-question-detail.jsp").forward(request,response);
+        request.getRequestDispatcher("/question-detail.jsp").forward(request,response);
     }
 
     private void doRemove(HttpServletRequest request, HttpServletResponse response) throws IOException {

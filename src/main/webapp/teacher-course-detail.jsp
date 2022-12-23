@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" type="image/png" sizes="16x16" href="${pageContext.request.contextPath}/assets/images/favicon.png">
-    <title>Student</title>
+    <title>Teacher</title>
     <link href="${pageContext.request.contextPath}/assets/node_modules/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/node_modules/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
@@ -18,42 +18,9 @@
     <link href="${pageContext.request.contextPath}/css/pages/dashboard1.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/colors/default.css" id="theme" rel="stylesheet">
     <script type="text/javascript">
-        selects = new Array();
-        see = 0;
-        function select(button,id){
-            selects.push(id);
-            $(button).parent().html('<p class="btn btn-info btn-xs">已选</p>');
-            $('#tabele').load("http://localhost:8080/student/getquestion #table");
-        }
-        function complete(){
-            console.log(selects);
-            $.ajax({
-                url: '${pageContext.request.contextPath}/student/select', 	// 请求的地址，即要给那里发送请求
-                data: {select:selects},
-                type: 'get',
-                success:function (){
-                    var url = "http://localhost:8080/student/getquestion";
-                    $(location).attr('href',url);
-                }
-            })
-        }
         function getDetail(questionId){
             var url = "http://localhost:8080/remark/getdetail?id="+questionId;
             $(location).attr('href',url);
-        }
-        function publishQues(){
-            content = $('#askcontent').val();
-            alert(see);
-            $.ajax({
-                url: '${pageContext.request.contextPath}/question/insert', 	// 请求的地址，即要给那里发送请求
-                data: {question:content,courseid:${courseView.id},studentid:${sessionScope.user.id},see:see},
-                contentType:'application/x-www-form-urlencoded',
-                type: 'post',
-                success:function (){
-                    $('#asktable').load("http://localhost:8080/course/getdetail?id=${courseView.id} #asktable");
-                    $("#askform").load("http://localhost:8080/course/getdetail?id=${courseView.id} #askform")
-                }
-            })
         }
         function deleteQues(questionId){
             $.ajax({
@@ -64,17 +31,45 @@
                 }
             })
         }
-       function ispublic(obj){
-           var originStatus =$(obj).text();
-           if(originStatus=="公开"){
-               see = 1;
-               $(obj).text("不公开");
+       function notQues(obj,studentId,courseId){
+           var originStatus = $(obj).text();
+           if(originStatus=="禁止提问"){
+               var ask = 0;
+               updateSelectionAsk(studentId,courseId,ask);
+               $(obj).text("允许提问");
            }
            else{
-               see = 0;
-               $(obj).text("公开");
+               var ask = 1;
+               updateSelectionAsk(studentId,courseId,ask);
+               $(obj).text("禁止提问");
            }
        }
+        function notLook(obj,studentId,courseId){
+            var originStatus =$(obj).text();
+            if(originStatus=="禁止浏览"){
+                var see = 0;
+                updateSelectionSee(studentId,courseId,see);
+                $(obj).text("允许浏览");
+            }
+            else{
+                var see = 1;
+                updateSelectionSee(studentId,courseId,see);
+                $(obj).text("禁止浏览");
+            }
+        }
+       function updateSelectionAsk(studentId,courseId,ask){
+           $.ajax({
+               url: '${pageContext.request.contextPath}/teacher/updateSelectionAsk?studentId='+studentId+'&courseId='+courseId+'&ask='+ask, 	// 请求的地址，即要给那里发送请求
+               type: 'get'
+           })
+       }
+       function updateSelectionSee(studentId,courseId,see){
+           $.ajax({
+               url: '${pageContext.request.contextPath}/teacher/updateSelectionSee?studentId='+studentId+'&courseId='+courseId+'&see='+see, 	// 请求的地址，即要给那里发送请求
+               type: 'get'
+           })
+       }
+
     </script>
 </head>
 
@@ -122,50 +117,6 @@
         </aside>
 <%--模态框--%>
         <div class="page-wrapper">
-            <div class="container">
-                <!-- 模态框（Modal） -->
-                <div class="modal fade" id="select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">选课</h4>
-                            </div>
-                            <div class="modal-body">
-<%--此处改url--%>
-                                <form class="form" action="${pageContext.request.contextPath}/student/select" role="form" method="post" id="selectform">
-                                    <div class="table-responsive m-t-20 no-wrap" style="margin-top:0;">
-                                        <table class="table vm no-th-brd pro-of-month table-hover table-bordered" id="table">
-                                            <thead>
-                                            <tr>
-                                                <td class = "h7 col-md-2 font-weight-bold" style="text-align: center">课程名称</td>
-                                                <td class = "h7 col-md-2 font-weight-bold" style="text-align: center">授课教师</td>
-                                                <td class = "h7 col-md-2 font-weight-bold" style="text-align: center">课程评分</td>
-                                                <td class = "h7 col-md-6 font-weight-bold" style="text-align: center">选课操作</td>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <c:forEach var="course" items="${courses}">
-                                            <tr>
-                                                <td class = "col-md-2" style="text-align: center"><h6>${course.name}</h6></td>
-                                                <td class = "col-md-2" style="text-align: center">${course.teacherid}</td>
-                                                <td class = "col-md-2" style="text-align: center">${course.score}</td>
-                                                <td class = "col-md-6" style="text-align: center">
-                                                    <button type="button" class="btn btn-danger btn-xs" onclick="select(this,${course.id})">待选</button>
-                                                </td>
-                                            </tr>
-                                            </c:forEach>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-info" onclick="complete()">完成选课</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="container-fluid">
                 <div class="row">
                     <!-- Column -->
@@ -187,19 +138,17 @@
                                         </thead>
                                         <tbody>
                                         <c:forEach var="ask" items="${asks}">
-                                            <c:if test="${(ask.studentShow==false&&sessionScope.user.id==ask.studentId)==false}">
-                                                <tr>
-                                                    <td class = "col-md-5" style="text-align: center"><h6>${ask.question}</h6></td>
-                                                    <td class = "col-md-2" style="text-align: center">${ask.askTime}</td>
-                                                    <td class = "col-md-2" style="text-align: center">${ask.student}</td>
-                                                    <td class = "col-md-3" style="text-align: center">
-                                                        <c:if test="${ask.show}">
-                                                            <button type="button" class="btn btn-danger btn-sm"  onclick="deleteQues(${ask.questionId})">删除</button>
-                                                        </c:if>
-                                                        <button type="button" class="btn btn-info btn-sm" onclick="getDetail(${ask.questionId})">查看</button>
-                                                    </td>
-                                                </tr>
-                                            </c:if>
+                                            <tr>
+                                                <td class = "col-md-5" style="text-align: center"><h6>${ask.question}</h6></td>
+                                                <td class = "col-md-2" style="text-align: center">${ask.askTime}</td>
+                                                <td class = "col-md-2" style="text-align: center">${ask.student}</td>
+                                                <td class = "col-md-3" style="text-align: center">
+                                                    <c:if test="${ask.show||sessionScope.type=='teacher'}">
+                                                        <button type="button" class="btn btn-danger btn-sm"  onclick="deleteQues(${ask.questionId})">删除</button>
+                                                    </c:if>
+                                                    <button type="button" class="btn btn-info btn-sm" onclick="getDetail(${ask.questionId})">查看</button>
+                                                </td>
+                                            </tr>
                                         </c:forEach>
                                         </tbody>
                                     </table>
@@ -221,15 +170,20 @@
                                     <table class="table vm no-th-brd pro-of-month table-hover table-bordered">
                                         <thead>
                                         <tr>
-                                            <td class = "h7 col-md-6 font-weight-bold" style="text-align: center">学号</td>
-                                            <td class = "h7 col-md-6 font-weight-bold" style="text-align: center">姓名</td>
+                                            <td class = "h7 col-md-4 font-weight-bold" style="text-align: center">学号</td>
+                                            <td class = "h7 col-md-4 font-weight-bold" style="text-align: center">姓名</td>
+                                            <td class = "h7 col-md-4 font-weight-bold" style="text-align: center">权限设置</td>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <c:forEach var="student" items="${students}">
                                             <tr>
-                                                <td class = "col-md-6" style="text-align: center"><h6>${student.id}</h6></td>
-                                                <td class = "col-md-6" style="text-align: center">${student.name}</td>
+                                                <td class = "col-md-4" style="text-align: center"><h6>${student.id}</h6></td>
+                                                <td class = "col-md-4" style="text-align: center">${student.name}</td>
+                                                <td class = "col-md-4" style="text-align: center">
+                                                <button type="button" class="btn btn-info btn-sm" onclick="notQues(this,${student.id},${courseView.id})">禁止提问</button>
+                                                <button type="button" class="btn btn-info btn-sm" onclick="notLook(this,${student.id},${courseView.id})">禁止浏览</button>
+                                                </td>
                                             </tr>
                                         </c:forEach>
                                         </tbody>
@@ -240,24 +194,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <!-- Column -->
-                    <div class="col-md-12">
-                        <div class="card">
-                                <div class="card-body">
-                                    <form id = "askform">
-                                        <div class="input-group">
-                                            <input class="form-control col-md-8" type="text" name="publish" placeholder="请输入提问的内容" id="askcontent"/>
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-info col-md-6" type="button" onclick="ispublic(this)" >公开</button>
-                                                <button class="btn btn-info col-md-6" type="button" onclick="publishQues()" >提问</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+               <c:if test="${sessionScope.type == student}">
+                   <div class="row">
+                       <!-- Column -->
+                       <div class="col-md-12">
+                           <div class="card">
+                               <div class="card-body">
+                                   <form id = "askform">
+                                       <div class="input-group">
+                                           <div class="radio col-md-1">
+                                               <label style="font-weight: bold;padding-top: 7px;padding-left: 14px"><input type="radio" name="see" value="1" style="left:15px;top:12px;opacity: 1;"/>&nbsp;&nbsp;公&nbsp;&nbsp;开</label>
+                                           </div>
+                                           <input class="form-control col-md-10" type="text" name="publish" placeholder="请输入提问的内容" id="askcontent"/>
+                                           <div class="input-group-btn">
+                                               <button class="btn btn-info col-md-12" type="button" onclick="publishQues()" >提问</button>
+                                           </div>
+                                       </div>
+                                   </form>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </c:if>
+
                 </div>
             </div>
         </div>

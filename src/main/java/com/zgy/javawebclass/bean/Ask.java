@@ -25,4 +25,5 @@ public class Ask {
     private LocalDateTime askTime;
     private String student;
     private Boolean show;
+    private Boolean studentShow;
 }

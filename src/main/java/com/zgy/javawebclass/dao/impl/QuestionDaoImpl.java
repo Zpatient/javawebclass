@@ -65,6 +65,25 @@ public class QuestionDaoImpl implements QuestionDao {
         return questions;
     }
     @Override
+    public List<Question> getQuestionsByTeacherId(Integer teacherId) {
+        String sql = "select question.id,question,askTime,courseId,studentId,see from question " +
+                "join course on question.courseId = course.id where course.teacherId = "+teacherId;
+        Connection conn = getConn();
+        List<Question> questions = getBySql(conn, sql, Question.class, null);
+        close(conn);
+        return questions;
+    }
+
+    @Override
+    public List<Question> getQuestionsByCourseId(Integer id) {
+        String sql = "select * from question where courseId = "+id;
+        Connection conn = getConn();
+        List<Question> questions = getBySql(conn, sql, Question.class, null);
+        close(conn);
+        return questions;
+    }
+
+    @Override
     public List<Question> getQuestions(Integer studentId,Integer courseId) {
         String sql = "select * from question where courseId = "+courseId+" and (see = 1 or studentId = "+studentId+")";
         Connection conn = getConn();

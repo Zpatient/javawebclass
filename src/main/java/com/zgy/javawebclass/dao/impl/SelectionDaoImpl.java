@@ -58,10 +58,11 @@ public class SelectionDaoImpl implements SelectionDao {
 
     @Override
     public Integer insert(List<Integer> ids, Integer studentId) {
-        String sql ="insert into selection values(null,?,?);";
+
         int count = 0;
         Connection conn = getConn();
         for(Integer courseId:ids){
+            String sql ="insert into selection values(null,?,?,1,1);";
             Object[] objects = {studentId,courseId};
             Integer update = excuteUpdate(conn, sql, objects);
             count+=update;
@@ -83,6 +84,37 @@ public class SelectionDaoImpl implements SelectionDao {
         Connection conn = getConn();
         List<Selection> selections = getBySql(conn, sql, Selection.class, null);
         return selections;
+    }
+
+    @Override
+    public Integer updateSelectionAsk(Integer studentid, Integer courseid, Integer ask) {
+        String sql = "update selection set ask = ? where studentid = ? and courseid = ?";
+        Object[] objects = {ask,studentid,courseid};
+        Connection conn = getConn();
+        Integer count = excuteUpdate(conn, sql, objects);
+        return count;
+    }
+
+    @Override
+    public Integer updateSelectionSee(Integer studentid, Integer courseid, Integer see) {
+        String sql = "update selection set see = ? where studentid = ? and courseid = ?";
+        Object[] objects = {see,studentid,courseid};
+        Connection conn = getConn();
+        Integer count = excuteUpdate(conn, sql, objects);
+        return count;
+    }
+
+    @Override
+    public Selection getSelection(Integer studentid, Integer courseid) {
+        String sql = "select * from selection where studentid = ? and courseid = ?";
+        Object[] objects = {studentid,courseid};
+        Connection conn = getConn();
+        List<Selection> selections = getBySql(conn, sql, Selection.class, objects);
+        if(selections.size()!=1) return null;
+        else{
+            Selection selection = selections.get(0);
+            return selection;
+        }
     }
 
 }

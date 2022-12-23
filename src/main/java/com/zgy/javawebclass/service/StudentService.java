@@ -3,6 +3,7 @@ package com.zgy.javawebclass.service;
 import com.zgy.javawebclass.bean.Admin;
 import com.zgy.javawebclass.bean.CourseView;
 import com.zgy.javawebclass.bean.Student;
+import com.zgy.javawebclass.bean.StudentRegister;
 
 import java.util.List;
 
@@ -16,4 +17,5 @@ public interface StudentService {
     Boolean update(Student student);
     List<CourseView> getCourses(Integer id);
     Student getById(Integer id);
+    Boolean register(StudentRegister studentRegister);
 }

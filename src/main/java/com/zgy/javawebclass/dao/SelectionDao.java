@@ -17,4 +17,7 @@ public interface SelectionDao {
     Integer insert(List<Integer> ids,Integer studentId);
     List<Selection> getSelections(Integer studentid);
     List<Selection> getSelectionsByCourse(Integer courseid);
+    Integer updateSelectionAsk(Integer studentid,Integer courseid,Integer ask);
+    Integer updateSelectionSee(Integer studentid,Integer courseid,Integer see);
+    Selection getSelection(Integer studentid, Integer courseid);
 }

@@ -26,7 +26,7 @@
                 <input class="content-form-signup" type="submit" value="登录">
             </div>
             <p class="content-login-description">没有账户？</p>
-            <a class="content-login-link" href="${pageContext.request.contextPath}/studentregister.jsp">注册</a>
+            <a class="content-login-link" href="${pageContext.request.contextPath}/student/register">注册</a>
         </form>
     </div>
 </div>

@@ -16,6 +16,10 @@ public class Selection implements Serializable {
 
     private Integer courseid;
 
+    private Integer see;
+
+    private Integer ask;
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {

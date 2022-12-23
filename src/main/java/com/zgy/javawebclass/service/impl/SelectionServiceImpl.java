@@ -8,6 +8,7 @@ import com.zgy.javawebclass.dao.impl.SelectionDaoImpl;
 import com.zgy.javawebclass.dao.impl.StudentDaoImpl;
 import com.zgy.javawebclass.service.SelectionService;
 import com.zgy.javawebclass.service.StudentService;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,5 +76,28 @@ public class SelectionServiceImpl implements SelectionService {
             students.add(student);
         }
         return students;
+    }
+
+    @Override
+    public Boolean updateSelectionAsk(Integer studentid, Integer courseid, Integer ask) {
+        if(ObjectUtils.anyNull(studentid,courseid,ask))return false;
+        Integer count = selectionDao.updateSelectionAsk(studentid, courseid, ask);
+        if(count.equals(1)) return true;
+        else return false;
+    }
+
+    @Override
+    public Boolean updateSelectionSee(Integer studentid, Integer courseid, Integer see) {
+        if(ObjectUtils.anyNull(studentid,courseid,see))return false;
+        Integer count = selectionDao.updateSelectionSee(studentid, courseid, see);
+        if(count.equals(1)) return true;
+        else return false;
+    }
+
+    @Override
+    public Selection getSelection(Integer studentid, Integer courseid) {
+        if(ObjectUtils.anyNull(studentid,courseid)) return null;
+        Selection selection = selectionDao.getSelection(studentid, courseid);
+        return selection;
     }
 }

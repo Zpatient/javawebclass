@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" type="image/png" sizes="16x16" href="${pageContext.request.contextPath}/assets/images/favicon.png">
-    <title>Student</title>
+    <title>Teacher</title>
     <link href="${pageContext.request.contextPath}/assets/node_modules/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/node_modules/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
@@ -18,35 +18,6 @@
     <link href="${pageContext.request.contextPath}/css/pages/dashboard1.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/colors/default.css" id="theme" rel="stylesheet">
     <script type="text/javascript">
-        selects = new Array();
-        function isSelect(){
-            var selected = ${sessionScope.user.selected};
-            if(selected != 1){
-                $('#select').modal('show');
-            }
-            else {
-                $('#select').modal('hide');
-            }
-        }
-        function select(button,id){
-            selects.push(id);
-            $(button).parent().html('<p class="btn btn-info btn-xs">已选</p>');
-            $('#tabele').load("http://localhost:8080/student/getquestion #table");
-        }
-        function complete(){
-            console.log(selects);
-            $.ajax({
-                url: '${pageContext.request.contextPath}/student/select', 	// 请求的地址，即要给那里发送请求
-                data: {select:selects},
-                contentType:'application/x-www-form-urlencoded',
-                type: 'post',
-                success:function (){
-                    var url = "http://localhost:8080/student/getquestion";
-                    $(location).attr('href',url);
-                }
-            })
-        }
-        setInterval(function (){isSelect();},1000);
         function getDetail(courseId){
             var url = "http://localhost:8080/course/getdetail?id="+courseId;
             $(location).attr('href',url);
@@ -91,12 +62,14 @@
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li> <a class="waves-effect waves-dark" href="${pageContext.request.contextPath}/student/getquestion" aria-expanded="false">
-                            <i class="fa active fa-tachometer"></i><span class="h5 hide-menu font-weight-bold">我的提问<span style="color: red;font-weight: normal;font-size: 14px;"><c:if test="${count>0}">
+                        <li> <a class="waves-effect waves-dark" href="${pageContext.request.contextPath}/teacher/getquestion" aria-expanded="false">
+                            <i class="fa active fa-tachometer"></i><span class="h5 hide-menu font-weight-bold">我的答疑<span style="color: red;font-weight: normal;font-size: 14px;">
+                            <c:if test="${count>0}">
                                 (${count}条未读)
-                            </c:if></span></span></a>
+                            </c:if></span>
+                        </span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="${pageContext.request.contextPath}/student/getcourse" aria-expanded="false">
+                        <li> <a class="waves-effect waves-dark" href="${pageContext.request.contextPath}/teacher/getcourse" aria-expanded="false">
                             <i class="fa fa-user-circle-o"></i><span class="h5 hide-menu font-weight-bold">我的课程</span></a>
                         </li>
                         </li>
@@ -106,50 +79,6 @@
         </aside>
 <%--模态框--%>
         <div class="page-wrapper">
-            <div class="container">
-                <!-- 模态框（Modal） -->
-                <div class="modal fade" id="select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">选课</h4>
-                            </div>
-                            <div class="modal-body">
-<%--此处改url--%>
-                                <form class="form" action="${pageContext.request.contextPath}/student/select" role="form" method="post" id="selectform">
-                                    <div class="table-responsive m-t-20 no-wrap" style="margin-top:0;">
-                                        <table class="table vm no-th-brd pro-of-month table-hover table-bordered" id="table">
-                                            <thead>
-                                            <tr>
-                                                <td class = "h7 col-md-2 font-weight-bold" style="text-align: center">课程名称</td>
-                                                <td class = "h7 col-md-2 font-weight-bold" style="text-align: center">授课教师</td>
-                                                <td class = "h7 col-md-2 font-weight-bold" style="text-align: center">课程评分</td>
-                                                <td class = "h7 col-md-6 font-weight-bold" style="text-align: center">选课操作</td>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <c:forEach var="course" items="${courses}">
-                                            <tr>
-                                                <td class = "col-md-2" style="text-align: center"><h6>${course.name}</h6></td>
-                                                <td class = "col-md-2" style="text-align: center">${course.teacherid}</td>
-                                                <td class = "col-md-2" style="text-align: center">${course.score}</td>
-                                                <td class = "col-md-6" style="text-align: center">
-                                                    <button type="button" class="btn btn-danger btn-xs" onclick="select(this,${course.id})">待选</button>
-                                                </td>
-                                            </tr>
-                                            </c:forEach>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-info" onclick="complete()">完成选课</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="container-fluid">
                  <div class="row">
                     <!-- Column -->
@@ -178,9 +107,7 @@
                                                 <td class = "col-md-5" style="text-align: center">${courseView.content}</td>
                                                 <td class = "col-md-2" style="text-align: center">${courseView.score}</td>
                                                 <td class = "col-md-1" style="text-align: center">
-                                                    <c:if test="${courseView.studentShow==true}">
-                                                        <button type="button" class="btn btn-info btn-sm" onclick="getDetail(${courseView.id})">进入课程</button>
-                                                    </c:if>
+                                                    <button type="button" class="btn btn-info btn-sm" onclick="getDetail(${courseView.id})">进入课程</button>
                                                 </td>
                                             </tr>
                                         </c:forEach>

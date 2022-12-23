@@ -17,4 +17,5 @@ public class CourseView {
     private String teacher;
     private String content;
     private Integer score;
+    private Boolean studentShow;
 }

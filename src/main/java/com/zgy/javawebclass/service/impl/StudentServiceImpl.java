@@ -1,8 +1,6 @@
 package com.zgy.javawebclass.service.impl;
 
-import com.zgy.javawebclass.bean.Admin;
-import com.zgy.javawebclass.bean.CourseView;
-import com.zgy.javawebclass.bean.Student;
+import com.zgy.javawebclass.bean.*;
 import com.zgy.javawebclass.dao.AdminDao;
 import com.zgy.javawebclass.dao.StudentDao;
 import com.zgy.javawebclass.dao.impl.AdminDaoImpl;
@@ -54,6 +52,18 @@ public class StudentServiceImpl implements StudentService {
         List<Integer> courseIds = selectionService.getCourseIds(id);
         if(courseIds==null)return null;
         List<CourseView> courseViews = courseService.getCourseViews(courseIds);
+        if(courseViews!=null){
+            for(CourseView courseView:courseViews){
+                Integer courseId = courseView.getId();
+                Selection selection = selectionService.getSelection(id, courseId);
+                if(selection!=null){
+                    if(selection.getSee().equals(0))
+                        courseView.setStudentShow(false);
+                    else
+                        courseView.setStudentShow(true);
+                }
+            }
+        }
         return courseViews;
     }
 
@@ -62,5 +72,21 @@ public class StudentServiceImpl implements StudentService {
         if (id == null) return null;
         Student student = studentDao.getById(id);
        return student;
+    }
+
+    @Override
+    public Boolean register(StudentRegister studentRegister) {
+        if(studentRegister == null) return false;
+        if(!studentRegister.getConfirmPassword().equals(studentRegister.getPassword()))
+            return false;
+        Student student = new Student();
+        student.setId(studentRegister.getId());
+        student.setName(studentRegister.getName());
+        student.setPassword(studentRegister.getPassword());
+        student.setSelected(0);
+        Integer count = studentDao.insertStudent(student);
+        if(count.equals(1)) return true;
+        else return false;
+
     }
 }

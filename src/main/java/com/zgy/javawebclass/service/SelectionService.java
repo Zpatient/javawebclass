@@ -17,4 +17,7 @@ public interface SelectionService {
     Integer insert(List<Integer> ids,Integer studentId);
     List<Integer> getCourseIds(Integer id);
     List<Student> getStudents(Integer courseId);
+    Boolean updateSelectionAsk(Integer studentid,Integer courseid,Integer ask);
+    Boolean updateSelectionSee(Integer studentid,Integer courseid,Integer see);
+    Selection getSelection(Integer studentid,Integer courseid);
 }

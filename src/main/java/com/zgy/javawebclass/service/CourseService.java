@@ -14,5 +14,7 @@ public interface CourseService {
     Boolean update(Course course);
     Boolean insert(Course course);
     Boolean remove(Integer id);
+    List<CourseView> getCourseViewsByTeacherId(Integer teacherId);
     List<CourseView> getCourseViews(List<Integer> ids);
+    Boolean remark(String courseName,Integer score);
 }

@@ -15,5 +15,7 @@ public interface QuestionDao {
     Integer remove(Integer id);
     Question getById(Integer id);
     List<Question> getQuestions(Integer id);
+    List<Question> getQuestionsByTeacherId(Integer id);
+    List<Question> getQuestionsByCourseId(Integer id);
     List<Question> getQuestions(Integer studentId,Integer courseId);
 }

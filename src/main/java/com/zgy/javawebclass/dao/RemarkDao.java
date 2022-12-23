@@ -15,4 +15,6 @@ public interface RemarkDao {
     Integer remove(Integer id);
     List<Remark> getByTargetId(Integer targetId);
     List<Remark> getByQuestionId(Integer questionId);
+    void updateRemarkIsRead(Integer questionId,Integer userId);
+    Remark getById(Integer remarkId);
 }

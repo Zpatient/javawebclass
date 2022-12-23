@@ -3,8 +3,10 @@ package com.zgy.javawebclass.dao.impl;
 import com.zgy.javawebclass.bean.Admin;
 import com.zgy.javawebclass.bean.Student;
 import com.zgy.javawebclass.bean.Teacher;
+import com.zgy.javawebclass.dao.BaseDao;
 import com.zgy.javawebclass.dao.StudentDao;
 import com.zgy.javawebclass.utils.DBUtil;
+
 
 import java.sql.Connection;
 
@@ -12,7 +14,7 @@ import java.sql.Connection;
  * @author zgy
  * @create 2022-12-19 19:45
  */
-public class StudentDaoImpl implements StudentDao{
+public class StudentDaoImpl extends BaseDao implements StudentDao{
     @Override
     public Student getById(Integer id) {
         Connection conn = DBUtil.getConn();
@@ -36,6 +38,14 @@ public class StudentDaoImpl implements StudentDao{
         Connection conn = DBUtil.getConn();
         Integer count = DBUtil.excuteUpdate(conn, sql, objects);
         DBUtil.close(conn);
+        return count;
+    }
+
+    @Override
+    public Integer insertStudent(Student student) {
+        if(student==null) return 0;
+        Connection conn = getConn();
+        Integer count = save(conn, student);
         return count;
     }
 

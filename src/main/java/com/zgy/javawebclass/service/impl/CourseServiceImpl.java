@@ -8,6 +8,7 @@ import com.zgy.javawebclass.dao.TeacherDao;
 import com.zgy.javawebclass.dao.impl.CourseDaoImpl;
 import com.zgy.javawebclass.dao.impl.TeacherDaoImpl;
 import com.zgy.javawebclass.service.CourseService;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,27 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<CourseView> getCourseViewsByTeacherId(Integer teacherId) {
+        if(teacherId==null) return null;
+        List<Course> courses = courseDao.getCourseByTeacherId(teacherId);
+        List<CourseView> courseViews=new ArrayList<>();
+        for(Course course:courses){
+            Integer teacherid = course.getTeacherid();
+            Teacher teacher = teacherDao.getById(teacherid);
+            if(teacher==null) continue;
+            String teacherName = teacher.getName();
+            CourseView courseView = new CourseView();
+            courseView.setContent(course.getContent());
+            courseView.setName(course.getName());
+            courseView.setTeacher(teacherName);
+            courseView.setScore(course.getScore());
+            courseView.setId(course.getId());
+            courseViews.add(courseView);
+        }
+        return courseViews;
+    }
+
+    @Override
     public List<CourseView> getCourseViews(List<Integer> ids) {
         if(ids==null) return null;
         List<Course> courses = courseDao.getCourseByIds(ids);
@@ -65,5 +87,19 @@ public class CourseServiceImpl implements CourseService {
             courseViews.add(courseView);
         }
         return courseViews;
+    }
+
+    @Override
+    public Boolean remark(String courseName, Integer score) {
+        if(ObjectUtils.anyNull(courseName,score)) return false;
+        Course byName = courseDao.getByName(courseName);
+        if(byName!=null){
+            Integer finalscore =(byName.getScore()*8+score*2)/10;
+            byName.setScore(finalscore);
+            Integer update = courseDao.update(byName);
+            if(update.equals(1)) return true;
+            else return false;
+        }
+        else return false;
     }
 }

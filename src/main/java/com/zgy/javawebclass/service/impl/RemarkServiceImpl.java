@@ -11,6 +11,7 @@ import com.zgy.javawebclass.dao.impl.RemarkDaoImpl;
 import com.zgy.javawebclass.dao.impl.TeacherDaoImpl;
 import com.zgy.javawebclass.service.QuestionService;
 import com.zgy.javawebclass.service.RemarkService;
+import com.zgy.javawebclass.service.SelectionService;
 import com.zgy.javawebclass.service.StudentService;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -27,6 +28,7 @@ public class RemarkServiceImpl implements RemarkService {
     CourseDao courseDao = new CourseDaoImpl();
     TeacherDao teacherDao = new TeacherDaoImpl();
     StudentService studentService = new StudentServiceImpl();
+    SelectionService selectionService = new SelectionServiceImpl();
     @Override
     public List<Remark> getAll() {
         return remarkDao.getAll();
@@ -67,11 +69,43 @@ public class RemarkServiceImpl implements RemarkService {
             Teacher teacher = teacherDao.getById(course.getTeacherid());
             if(ObjectUtils.anyNull(question,course,teacher)) return null;
             Message message = new Message();
+            if(teacher.getId().equals(remark.getOwnerid())){
+                message.setOwnerid(teacher.getId());
+                message.setOwnername(teacher.getName());
+                message.setTeacher(teacher.getName());
+                Student student = studentService.getById(remark.getTargetid());
+                Selection selection = selectionService.getSelection(student.getId(), course.getId());
+                if(selection!=null){
+                    if(selection.getSee().equals(0))
+                        message.setStudentShow(false);
+                    else
+                        message.setStudentShow(true);
+                }
+                message.setStudent(student.getName());
+                message.setTargetid(student.getId());
+                message.setTargetname(student.getName());
+            }else {
+                message.setTargetid(teacher.getId());
+                message.setTargetname(teacher.getName());
+                message.setTeacher(teacher.getName());
+                Student student = studentService.getById(remark.getOwnerid());
+                Selection selection = selectionService.getSelection(student.getId(), course.getId());
+                if(selection!=null){
+                    if(selection.getSee().equals(0))
+                        message.setStudentShow(false);
+                    else
+                        message.setStudentShow(true);
+                }
+                message.setStudent(student.getName());
+                message.setOwnerid(student.getId());
+                message.setOwnername(student.getName());
+            }
             message.setCourse(course.getName());
             message.setQuestion(question.getQuestion());
-            message.setTeacher(teacher.getName());
             message.setTime(remark.getRemarktime());
             message.setQuestionId(questionid);
+            message.setContent(remark.getContent());
+            message.setRemarkid(remark.getId());
             messages.add(message);
         }
         return messages;
@@ -95,6 +129,13 @@ public class RemarkServiceImpl implements RemarkService {
                 message.setOwnername(teacher.getName());
                 message.setTeacher(teacher.getName());
                 Student student = studentService.getById(remark.getTargetid());
+                Selection selection = selectionService.getSelection(student.getId(), course.getId());
+                if(selection!=null){
+                    if(selection.getSee().equals(0))
+                        message.setStudentShow(false);
+                    else
+                        message.setStudentShow(true);
+                }
                 message.setStudent(student.getName());
                 message.setTargetid(student.getId());
                 message.setTargetname(student.getName());
@@ -103,6 +144,13 @@ public class RemarkServiceImpl implements RemarkService {
                 message.setTargetname(teacher.getName());
                 message.setTeacher(teacher.getName());
                 Student student = studentService.getById(remark.getOwnerid());
+                Selection selection = selectionService.getSelection(student.getId(), course.getId());
+                if(selection!=null){
+                    if(selection.getSee().equals(0))
+                        message.setStudentShow(false);
+                    else
+                        message.setStudentShow(true);
+                }
                 message.setStudent(student.getName());
                 message.setOwnerid(student.getId());
                 message.setOwnername(student.getName());
@@ -112,10 +160,22 @@ public class RemarkServiceImpl implements RemarkService {
             message.setTime(remark.getRemarktime());
             message.setQuestionId(questionid);
             message.setContent(remark.getContent());
+            message.setRemarkid(remark.getId());
             messages.add(message);
         }
         return messages;
     }
 
+    @Override
+    public void updateRemarkIsRead(Integer questionId,Integer userId) {
+        if(questionId==null) return;
+        remarkDao.updateRemarkIsRead(questionId,userId);
+    }
 
+    @Override
+    public Remark getById(Integer remarkId) {
+        if(remarkId==null) return null;
+        Remark remark = remarkDao.getById(remarkId);
+        return remark;
+    }
 }

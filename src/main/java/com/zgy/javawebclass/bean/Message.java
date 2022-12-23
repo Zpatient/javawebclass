@@ -30,4 +30,6 @@ public class Message {
     private Integer ownerid;
     private Integer targetid;
     private String content;
+    private Boolean show;
+    private Boolean studentShow;
 }

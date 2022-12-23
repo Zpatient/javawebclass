@@ -2,6 +2,7 @@ package com.zgy.javawebclass.dao.impl;
 
 import com.zgy.javawebclass.bean.Course;
 import com.zgy.javawebclass.bean.Course;
+import com.zgy.javawebclass.dao.BaseDao;
 import com.zgy.javawebclass.dao.CourseDao;
 import com.zgy.javawebclass.utils.DBUtil;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @author zgy
  * @create 2022-12-18 11:12
  */
-public class CourseDaoImpl implements CourseDao {
+public class CourseDaoImpl extends BaseDao implements CourseDao {
     public List<Course> getAll() {
         Connection conn = DBUtil.getConn();
         String sql = "select * from course";
@@ -65,5 +66,26 @@ public class CourseDaoImpl implements CourseDao {
                 courses.add(course);
         }
         return courses;
+    }
+
+    @Override
+    public List<Course> getCourseByTeacherId(Integer teacherId) {
+        if(teacherId==null) return null;
+        String sql = "select * from course where teacherId = "+teacherId;
+        Connection conn = getConn();
+        List<Course> courses = getBySql(conn, sql, Course.class);
+        return courses;
+    }
+
+    @Override
+    public Course getByName(String courseName) {
+        String sql = "select * from course where name = '"+courseName+"'";
+        Connection conn = getConn();
+        List<Course> courses = getBySql(conn, sql, Course.class);
+        if(courses.size()!=1) return null;
+        else{
+            Course course = courses.get(0);
+            return course;
+        }
     }
 }
