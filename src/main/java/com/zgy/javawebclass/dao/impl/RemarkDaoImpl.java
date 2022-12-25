@@ -1,10 +1,8 @@
 package com.zgy.javawebclass.dao.impl;
 
 import com.zgy.javawebclass.bean.Remark;
-import com.zgy.javawebclass.dao.BaseDao;
 import com.zgy.javawebclass.dao.RemarkDao;
 import com.zgy.javawebclass.utils.DBUtil;
-import static com.zgy.javawebclass.utils.DBUtil.*;
 
 import java.sql.Connection;
 import java.util.List;

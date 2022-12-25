@@ -173,7 +173,8 @@ public class DBUtil {
                         fields[i].setAccessible(true);
                         String fieldName = fields[i].getName();
                         // 利用字符串拼接，将属性名的首字母变为大写，获取对应的set方法。
-                        Method setField = clazz.getMethod("set" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1), fields[i].getType());
+                        Method setField = clazz.getMethod("set" + fieldName.substring(0, 1).toUpperCase() +
+                                fieldName.substring(1), fields[i].getType());
                         // 需保证数据库表字段顺序与bean一致
                         setField.invoke(bean,resultSet.getObject(i+1));
                     }

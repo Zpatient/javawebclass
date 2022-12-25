@@ -43,7 +43,6 @@
         }
         function publishQues(){
             content = $('#askcontent').val();
-            alert(see);
             $.ajax({
                 url: '${pageContext.request.contextPath}/question/insert', 	// 请求的地址，即要给那里发送请求
                 data: {question:content,courseid:${courseView.id},studentid:${sessionScope.user.id},see:see},

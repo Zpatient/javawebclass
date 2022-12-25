@@ -1,4 +1,4 @@
-package com.zgy.javawebclass.dao;
+package com.zgy.javawebclass.dao.impl;
 
 import java.io.IOException;
 import java.io.InputStream;

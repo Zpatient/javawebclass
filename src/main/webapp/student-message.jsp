@@ -72,7 +72,7 @@
                             <img src="${pageContext.request.contextPath}/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
                         </b>
                          <span>
-                            <img src="${pageContext.request.contextPath}/assets/images/admin.png" alt="homepage" class="dark-logo" />
+                            <img src="${pageContext.request.contextPath}/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
                          </span>
                     </a>
                 </div>

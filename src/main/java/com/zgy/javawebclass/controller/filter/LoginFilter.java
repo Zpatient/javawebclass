@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-@WebFilter(filterName = "LoginFilter",urlPatterns = "/*")
+@Deprecated
+@WebFilter(filterName = "LoginFilter",urlPatterns = "/student/getquestion")
 public class LoginFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
     }

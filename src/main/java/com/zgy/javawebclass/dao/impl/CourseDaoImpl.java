@@ -1,8 +1,6 @@
 package com.zgy.javawebclass.dao.impl;
 
 import com.zgy.javawebclass.bean.Course;
-import com.zgy.javawebclass.bean.Course;
-import com.zgy.javawebclass.dao.BaseDao;
 import com.zgy.javawebclass.dao.CourseDao;
 import com.zgy.javawebclass.utils.DBUtil;
 

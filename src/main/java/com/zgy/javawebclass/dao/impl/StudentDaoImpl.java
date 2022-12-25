@@ -1,9 +1,6 @@
 package com.zgy.javawebclass.dao.impl;
 
-import com.zgy.javawebclass.bean.Admin;
 import com.zgy.javawebclass.bean.Student;
-import com.zgy.javawebclass.bean.Teacher;
-import com.zgy.javawebclass.dao.BaseDao;
 import com.zgy.javawebclass.dao.StudentDao;
 import com.zgy.javawebclass.utils.DBUtil;
 
